@@ -1,0 +1,31 @@
+
+<%= form_with model: password do |form| %>
+  <% if form.object.errors.any? %>
+    <% form.object.errors.full_messages.each do |message| %>
+      <div>
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="mt-2 flex justify-between">
+    <%= form.label :url %>
+    <%= form.url_field :url %>
+  </div>
+
+  <div class="mt-2 flex justify-between">
+    <%= form.label :username %>
+    <%= form.text_field :username %>
+  </div>
+
+  <div class="mt-2 flex justify-between">
+    <%= form.label :password %>
+    <%= form.text_field :password %>
+  </div>
+
+  <div class="my-4 flex justify-between">
+    <%= form.submit class:'px-5 py-2.5 bg-gray-200 rounded' %>
+    <%= button_tag "Delete", class:"px-5 py-2.5 bg-red-600 rounded text-white", form: "delete_password" if form.object.persisted? && current_user_password.deletable? %>
+  </div>
+<% end %>
+
+<%= form_with model: password, method: :delete, id: "delete_password", data: { turbo_confirm: "Are you sure?" } %>
